@@ -2,28 +2,35 @@ pipeline {
     agent any
 
     stages {
-        stage('checkout'){
-            steps {
-                checkout scm }
-        }
-        stage('git') {
-            steps {
-                // Cloner le référentiel depuis votre système de contrôle de version
-                  git branch: 'main', url : 'https://github.com/Guesmiazer/Devops.git'
-                  }
-        }
-        stage('Construction') {
-            steps {
-                // Exécuter votre processus de construction (par exemple, Maven, Gradle, etc.)
-                sh 'mvn clean package'
-            }
-        }
+
+               stage('Récupération du code') {
+                   steps {
+                       checkout scm
+                   }
+               }
+
+               stage('Lancement de la commande Maven') {
+                   steps {
+                       sh 'mvn clean compile'
+                   }
+               }
+                 stage('SonarQube Scan') {
+                   steps {
+                       sh 'mvn sonar:sonar -Dsonar.login=squ_74b7649d721ca5673bcb5e68c5286cdcd6a259bb'
+                   }
+               }
+              stage('mvn deploy'){
+                   steps {
+                       sh "mvn deploy"
+                   }
+              }
         stage('Tests') {
             steps {
                 // Exécuter vos tests unitaires ou tests d'intégration
                 sh 'mvn test'
             }
-                  post {
+            }
+                  /*post {
         failure {
             script {
                 emailext(
@@ -43,25 +50,11 @@ pipeline {
                     to: 'azer1.guesmi@gmail.com',
                     attachLog: true,
                 )
-            }
-        }
+            }*/
+
     }       
 
 }
-       stage('sonarqube') {
-           steps {
-           withSonarQubeEnv('sonarserver') {
-                                      sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
-           }
-           }
-       }
-        //
-      // stage('Déploiement') {
-      //       steps {
-      //           // Déployer votre application sur un serveur ou une plateforme spécifique
-      //           sh 'mvn deploy'
-      //       }
-      //   }
-    }
-}
+
+
 
