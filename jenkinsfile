@@ -3,6 +3,9 @@ pipeline {
 
     stages {
 
+environment {
+    		DOCKERHUB_CREDENTIALS=credentials('id')
+    	}
                stage('Récupération du code') {
                    steps {
                        checkout scm
@@ -26,9 +29,17 @@ pipeline {
               }
               stage('Docker Image') {
                                  steps {
-                                     sh 'docker build -t waelgharsalli-5nids2-g10 .'
+                                     sh 'docker build -t waelgharsalli-5sleam2 .'
                                  }
                      }
+                     
+                      stage('DOCKERHUB') {
+                          steps {
+                              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                              sh 'docker tag waelgharsalli-5sleam2 waelgharsalli/waelgharsalli5sleam2:1.0.0'
+                              sh 'docker push waelgharsalli/waelgharsalli5sleam2:1.0.0'
+                          }
+                      }
 
 
 
