@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+              environment {
+    		DOCKERHUB_CREDENTIALS=credentials('id')
+    	}
     stages {
 
 
@@ -38,9 +40,7 @@ pipeline {
                               sh 'docker push waelgharsalli/waelgharsalli5sleam2:1.0.0'
                           }
                       }
-                      environment {
-    		DOCKERHUB_CREDENTIALS=credentials('id')
-    	}
+
 
 
 
