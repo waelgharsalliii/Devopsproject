@@ -3,9 +3,7 @@ pipeline {
 
     stages {
 
-environment {
-    		DOCKERHUB_CREDENTIALS=credentials('id')
-    	}
+
                stage('Récupération du code') {
                    steps {
                        checkout scm
@@ -40,6 +38,9 @@ environment {
                               sh 'docker push waelgharsalli/waelgharsalli5sleam2:1.0.0'
                           }
                       }
+                      environment {
+    		DOCKERHUB_CREDENTIALS=credentials('id')
+    	}
 
 
 
