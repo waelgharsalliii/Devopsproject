@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dataset>
+    <stock
+            title="stock 1"
+            ID_STOCK="1"
+    />
+
+    <product
+            id_product="1"
+            title="Produit 1"
+            price="20.50"
+            quantity="100"
+            category="ELECTRONICS"
+            stock_id_stock="1"
+    />
+</dataset>
