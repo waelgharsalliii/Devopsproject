@@ -1,4 +1,7 @@
-FROM openjdk:8
-ADD target/DevOps_Project-1.0.jar DevOps_Project.jar-1.0
-EXPOSE 8082
-ENTRYPOINT ["java", "-jar", "DevOps_Project-1.0.jar"]
+FROM maven:3.8.2-jdk-8
+
+WORKDIR /devops_project
+COPY . .
+RUN mvn clean install -Dmaven.test.skip
+
+CMD mvn spring-boot:run
